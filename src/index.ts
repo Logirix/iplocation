@@ -1,5 +1,4 @@
-import debug from "debug";
-import request from "request";
+const request require('axios');
 
 import { normalise, validateIp, IPResponse } from "./interface";
 
@@ -11,7 +10,7 @@ const defaultProviders: string[] = [
     "https://get.geojs.io/v1/ip/geo.json*"
 ];
 
-const log = debug("iplocation");
+const log = console.log
 
 class InvalidIPError extends Error {
     constructor() {
