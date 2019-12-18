@@ -1,7 +1,5 @@
 const request = require("axios");
 
-import { normalise, validateIp, IPResponse } from "./interface";
-
 const defaultProviders: string[] = [
     "https://extreme-ip-lookup.com/json/*",
     "http://free.ipwhois.io/json/*",
@@ -26,15 +24,15 @@ class ProviderError extends Error {
     }
 }
 
-interface Callback {
-    (err: InvalidIPError | ProviderError, res: IPResponse | null): void;
-}
+// interface Callback 
+//     IPResponse: void;
+
 
 export default function(
     ip: string,
     additionalProviders?: string[],
-    callback?: Callback
-): Promise<IPResponse | InvalidIPError | ProviderError | Error> | void {
+    callback?: any
+):  void {
     const providers: string[] = (additionalProviders || [])
         .concat(defaultProviders);
 
@@ -44,7 +42,7 @@ export default function(
     //         : Promise.reject(new InvalidIPError());
     // }
 
-    function retry(i: number, callback: Callback) {
+    function retry(i: number, callback: any) {
         if (!providers[i]) {
             return callback(new ProviderError(), null);
         }
@@ -55,7 +53,7 @@ export default function(
 
         request.get(url).then((res) => {
             if (res.status !== 200 || !res.data) {
-              return callback(null, normalised);
+              return retry(++i, callback);
             }
             const json ={...res.data}
             if (json.lat) json.latitude = json.lat;
@@ -65,22 +63,22 @@ export default function(
             if (json.error || !json.latitude || !json.longitude) {
                 return retry(++i, callback);
             }
-
             return callback(null, json);
         }).catch((err) => {
-          return retry(++i, callback);
+          // throw(err)
+          // return retry(++i, callback);
         });
     }
-    if (callback) {
+    // if (callback) {
 
         retry(0, callback);
-    } else {
-        return new Promise((resolve, reject) => {
-            retry(0, (err, res) => {
-                if (err) return reject(err);
-                resolve(res);
-            });
-        });
-    }
+    // } else {
+    //     return new Promise((resolve, reject) => {
+    //         retry(0, (err, res) => {
+    //             if (err) return reject(err);
+    //             resolve(res);
+    //         });
+    //     });
+    // }
 }
 
