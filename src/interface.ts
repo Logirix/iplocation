@@ -1,4 +1,3 @@
-import { ip as validate } from "ip-validator";
 
 export interface IPResponse {
     country: string;
@@ -48,7 +47,7 @@ export function getPropertyByPath (obj: any, path: string): any | null {
 }
 
 export function validateIp (ip: string): boolean {
-    return !ip || !validate(ip);
+    return true
 }
 
 export function normalise (res: GenericResponse): IPResponse {
