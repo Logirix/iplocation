@@ -2,8 +2,7 @@
     "name": "iplocation",
     "version": "6.1.0",
     "description": "get ip location information",
-    "main": "lib/index.js",
-    "types": "lib/index.d.ts",
+    "main": "src/index.ts",
     "files": [
         "LICENSE",
         "README.md",
