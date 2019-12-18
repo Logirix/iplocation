@@ -42,7 +42,6 @@
     "homepage": "https://github.com/roryrjb/iplocation",
     "dependencies": {
         "axios": "^0.18.1",
-        "ip-validator": "0.0.1",
     },
     "devDependencies": {
         "@types/debug": "=0.0.31",
