@@ -8,7 +8,6 @@ const defaultProviders: string[] = [
     "https://get.geojs.io/v1/ip/geo.json*"
 ];
 
-const log = console.tron.logImportant;
 
 class InvalidIPError extends Error {
     constructor() {
@@ -49,7 +48,6 @@ export default function(
 
         const url = providers[i].replace("*", ip || "");
 
-        log("trying: " + url);
 
         request.get(url).then((res) => {
             if (res.status !== 200 || !res.data) {
@@ -59,7 +57,6 @@ export default function(
             if (json.lat) json.latitude = json.lat;
             if (json.lat) json.latitude = json.lat;
             if (json.lon) json.longitude = json.lon;
-            console.tron.logImportant(json);
             if (json.error || !json.latitude || !json.longitude) {
                 return retry(++i, callback);
             }
